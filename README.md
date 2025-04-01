@@ -5,8 +5,8 @@
 
 ### Team Information:
 
-- Team Name:  
-- Students on team:
-- Semester: Spring 2024
+- Team Name: Please don't hurt us
+- Students on team:Stuart G, Jason T
+- Semester: Spring 2025
 
 
