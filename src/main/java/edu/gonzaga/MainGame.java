@@ -11,12 +11,15 @@
  * Copyright: 2025
  */
 package edu.gonzaga;
+import java.util.Scanner;
+import java.util.Random;
+import java.util.Arrays;
 
 
 /** Main program class for launching your team's program. */
 public class MainGame {
     public static void main(String[] args) {
-        System.out.println("Hello Team Game");
+        System.out.println("Hello welcome to the BattleShip game!");
 
 
         // Your code here. Good luck!
@@ -28,10 +31,26 @@ public class MainGame {
     }
 
     void initializeGame() {
+        System.out.println("Initializing game...");
+        // Initialize the game board, ships, and players
+        Board board = new Board();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        player1.name = "Player 1";
 
+        player2.name = "Player 2";
+
+        System.out.println("Player 1, pick your name:");
+        Scanner scanner = new Scanner(System.in);
+        player1.name = scanner.nextLine();
+        System.out.println("Player 2, pick your name:");
+        player2.name = scanner.nextLine();
+        System.out.println("Welcome " + player1.name + " and " + player2.name + "!");
+        
     }
 
     void startGame() {
+
         
     }
 
