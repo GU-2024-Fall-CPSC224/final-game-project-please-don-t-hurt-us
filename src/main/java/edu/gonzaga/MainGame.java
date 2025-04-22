@@ -27,6 +27,7 @@ public class MainGame {
         Player player2 = new Player();
         Player currentPlayer = player1;
         Player opponent = player2;
+        initializeGame();
 
     }
 
@@ -46,7 +47,7 @@ public class MainGame {
         System.out.println("Player 2, pick your name:");
         player2.name = scanner.nextLine();
         System.out.println("Welcome " + player1.name + " and " + player2.name + "!");
-        
+
     }
 
     void startGame() {
