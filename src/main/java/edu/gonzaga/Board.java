@@ -5,10 +5,20 @@ public class Board {
     Cell[][] grid;
     char rows = 'A';
     int columns = 0;
+    char[] x = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+    int[] y = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     boolean canPlaceShip(Ship ship, Coordinate coordinate, Direction direction) {
         // Check if the ship can be placed on the board at the given coordinate and direction
-        // This method should check for boundaries and collisions with other ships
+        // This method should check the grid at the given coordinate and direction
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < y.length; j++) {
+                if (grid[i][j].hasShip) {
+                    return false; // Cell already occupied by another ship
+                }
+            }
+        }
+        
         return true; // Placeholder return value
     }
 

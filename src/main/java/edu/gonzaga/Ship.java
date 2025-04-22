@@ -25,7 +25,5 @@ public class Ship {
         if (coordinates.contains(coordinate)) {
             hitCoordinates.add(coordinate);
         }
-    }
-
-    
+    } 
 }

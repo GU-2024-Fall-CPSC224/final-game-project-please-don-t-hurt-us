@@ -24,5 +24,36 @@ public class Coordinate {
         this.row = coordinateString.charAt(0);
         this.column = Integer.parseInt(coordinateString.substring(1));
     }
-    
+
+    int getX() {
+        // Get the x-coordinate (row) as an integer
+        return row - 'A';
+    }   
+
+    int getY() {
+        // Get the y-coordinate (column) as an integer
+        return column - 1;
+    }
+
+    void setX(int x) {
+        // Set the x-coordinate (row) from an integer
+        this.row = (char) (x + 'A');
+    }
+
+    void setY(int y) {
+
+        this.column = y + 1;
+    }
+    void setRow(char row) {
+        // Set the row character
+        this.row = row;
+    }
+    void setColumn(int column) {
+        // Set the column integer
+        this.column = column;
+    }
+    int getColumn() {
+
+        return column;
+    }    
 }
