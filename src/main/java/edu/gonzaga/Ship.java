@@ -1,5 +1,6 @@
 package edu.gonzaga;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
@@ -9,6 +10,19 @@ public class Ship {
     List<Coordinate> coordinates;
     boolean isPlaced;
     List<Coordinate> hitCoordinates;
+
+    public Ship(String type, int size) {
+        this.type = type;
+        this.size = size;
+        this.coordinates = new ArrayList<>();
+        this.hitCoordinates = new ArrayList<>();
+        this.isPlaced = false;
+    }
+
+    public void placeShip(List<Coordinate> coords) {
+        this.coordinates = coords;
+        this.isPlaced = true;
+    }
 
     boolean isSunk() {
         // Check if the ship is sunk (all coordinates have been hit)
@@ -22,10 +36,24 @@ public class Ship {
 
     void registerHit(Coordinate coordinate) {
         // Register a hit on the ship at the given coordinate
-        if (coordinates.contains(coordinate)) {
+        if (coordinates.contains(coordinate) && !hitCoordinates.contains(coordinate)) {
             hitCoordinates.add(coordinate);
         }
     }
 
-    
+    public String getType() {
+        return type;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public boolean isPlaced() {
+        return isPlaced();
+    }
 }
