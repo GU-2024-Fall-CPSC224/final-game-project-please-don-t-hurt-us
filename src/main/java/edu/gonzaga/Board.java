@@ -20,7 +20,6 @@ public class Board {
 
     void display() {
         // Display the board to the console
-        // This method should print the grid to the console
     }
 
     
