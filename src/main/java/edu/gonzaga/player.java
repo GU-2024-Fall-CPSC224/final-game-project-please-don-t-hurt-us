@@ -72,7 +72,7 @@ public class Player extends MainGame {
         UP, DOWN, LEFT, RIGHT
     }
     enum shotResult {
-        HIT, MISS, SUNK
+        HIT,MISS
     }
     public void setName(String name) {
         this.name = name;

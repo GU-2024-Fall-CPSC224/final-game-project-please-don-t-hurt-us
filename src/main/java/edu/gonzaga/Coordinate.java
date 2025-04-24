@@ -1,12 +1,14 @@
 package edu.gonzaga;
 
+import java.util.Objects;
+
 public class Coordinate {
     char row;
     int column;
 
     public Coordinate(char row, int column) {
-        this.row = row;
-        this.column = column;
+        this.row = row; // A to J
+        this.column = column; // 1 to 10 
     }
 
     public boolean isEqual(Coordinate coordinate) {
@@ -18,7 +20,8 @@ public class Coordinate {
         // Check if the coordinate is valid (within the bounds of the board)
         return row >= 'A' && row <= 'J' && column >= 1 && column <= 10;
     }
-
+    
+    @Override
     public String toString() {
         // Convert the coordinate to a string representation
         return String.format("%c%d", row, column);
@@ -37,38 +40,35 @@ public class Coordinate {
     public int getColumn() {
         return column;
     }
-}
 
-
-    int getX() {
-        // Get the x-coordinate (row) as an integer
+    public int getX() {
         return row - 'A';
-    }   
+    }
 
-    int getY() {
-        // Get the y-coordinate (column) as an integer
+    public int getY() {
         return column - 1;
     }
 
-    void setX(int x) {
-        // Set the x-coordinate (row) from an integer
-        this.row = (char) (x + 'A');
+    public void setX(int x) {
+        this.row = (char)('A' + x);
     }
 
-    void setY(int y) {
-
+    public void setY(int y) {
         this.column = y + 1;
     }
-    void setRow(char row) {
-        // Set the row character
-        this.row = row;
-    }
-    void setColumn(int column) {
-        // Set the column integer
-        this.column = column;
-    }
-    int getColumn() {
 
-        return column;
-    }    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Coordinate)) return false;
+        Coordinate that = (Coordinate) o;
+        return row == that.row && column == that.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
 }
+
+
