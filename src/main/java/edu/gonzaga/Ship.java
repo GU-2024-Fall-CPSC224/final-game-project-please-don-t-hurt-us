@@ -55,5 +55,8 @@ public class Ship {
     public boolean isPlaced() {
         return isPlaced;
     }
-    
+
+    public List<Coordinate> getHitCoordinates() {
+        return hitCoordinates;
+    }
 }
