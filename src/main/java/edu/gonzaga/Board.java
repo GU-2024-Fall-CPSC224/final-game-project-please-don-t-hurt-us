@@ -77,14 +77,14 @@ public class Board {
 
     }
 
-    shotResult fire(Coordinate coordinate) {
+    public shotResult fire(Coordinate coordinate) {
         // Check if the shot hits or misses a ship
         // This method should check the grid at the given coordinate and return the result
         int x = coordinate.getX(); 
         int y = coordinate.getY();
         
         // check bounds & return MISS
-        if (x < 0 || x >= 11 || y < 0 || y >= 11) {
+        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {
             System.out.println("Shot fired is out of bounds!");
             return shotResult.MISS;
         } 
@@ -171,11 +171,11 @@ public class Board {
         }
     }
 
-    enum Direction {
+    public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
-    enum shotResult {
+    public enum shotResult {
         HIT, MISS, SUNK
     }
 
