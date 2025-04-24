@@ -18,6 +18,12 @@ public class Board {
     boolean canPlaceShip(Ship ship, Coordinate coordinate, Direction direction) {
         // Check if the ship can be placed on the board at the given coordinate and direction
         // This method should check for boundaries and collisions with other ships
+        if (!coordinate.isValid()) {
+            return false; // Invalid coordinate
+        }
+        if (ship.isPlaced()) {
+            return false; // Ship already placed
+        }
         return true; // Placeholder return value
     }
 

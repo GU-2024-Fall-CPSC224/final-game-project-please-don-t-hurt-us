@@ -55,4 +55,5 @@ public class Ship {
     public boolean isPlaced() {
         return isPlaced;
     }
+    
 }
