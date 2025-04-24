@@ -1,5 +1,4 @@
 package edu.gonzaga;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +53,6 @@ public class Ship {
     }
 
     public boolean isPlaced() {
-        return isPlaced();
+        return isPlaced;
     }
 }

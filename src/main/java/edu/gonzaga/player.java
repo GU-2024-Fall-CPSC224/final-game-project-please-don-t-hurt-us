@@ -66,9 +66,6 @@ public class Player extends MainGame {
     }
 
     void changeDirection(Ship ship, Direction direction) {
-
-
-        
     }
 
     enum Direction {
