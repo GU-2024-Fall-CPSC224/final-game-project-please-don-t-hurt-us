@@ -3,22 +3,21 @@ package edu.gonzaga;
 public class Board {
     
     Cell[][] grid;
-    char rows = 'A';
-    int columns = 0;
-    char[] x = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
-    int[] y = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    public static final int SIZE = 10;
+    
+    // Constructor: initialize the board grid
+    public Board() {
+        grid = new Cell[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                grid[i][j] = new Cell();
+            }
+        }
+    }
 
     boolean canPlaceShip(Ship ship, Coordinate coordinate, Direction direction) {
         // Check if the ship can be placed on the board at the given coordinate and direction
-        // This method should check the grid at the given coordinate and direction
-        for (int i = 0; i < x.length; i++) {
-            for (int j = 0; j < y.length; j++) {
-                if (grid[i][j].hasShip) {
-                    return false; // Cell already occupied by another ship
-                }
-            }
-        }
-        
+        // This method should check for boundaries and collisions with other ships
         return true; // Placeholder return value
     }
 
@@ -27,10 +26,18 @@ public class Board {
         // This method should check the grid at the given coordinate and return the result
         return shotResult.MISS; // Placeholder return value
     }
+   
 
     void display() {
         // Display the board to the console
     }
 
+    enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
+
+    enum shotResult {
+        HIT, MISS, SUNK
+    }
     
 }

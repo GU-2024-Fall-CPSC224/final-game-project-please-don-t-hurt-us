@@ -51,7 +51,7 @@ public class MainGame {
     }
 
     void startGame() {
-
+        
         
     }
 
@@ -62,7 +62,14 @@ public class MainGame {
     }
 
     boolean checkWinner(Player player) {
+
+        for (Ship ship : player.getShips()) {
+            if (!ship.isSunk()) {
+                return false;
+            }
+        }
         return true;
+        
     }
 
     void quitGame() {

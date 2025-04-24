@@ -74,7 +74,9 @@ public class Player extends MainGame {
     enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    
+    enum shotResult {
+        HIT, MISS, SUNK
+    }
     public void setName(String name) {
         this.name = name;
     }
