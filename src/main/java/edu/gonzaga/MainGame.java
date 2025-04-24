@@ -31,7 +31,7 @@ public class MainGame {
 
     }
 
-    void initializeGame() {
+    static void initializeGame() {
         System.out.println("Initializing game...");
         // Initialize the game board, ships, and players
         Board board = new Board();
