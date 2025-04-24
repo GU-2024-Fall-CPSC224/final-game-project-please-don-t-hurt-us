@@ -115,7 +115,7 @@ public class Board {
         }
     }
 
-    void placeShip(Ship ship, Coordinate coordinate, Direction direction) {
+    public void placeShip(Ship ship, Coordinate coordinate, Direction direction) {
         
         if (!canPlaceShip(ship, coordinate, direction)) {
             System.out.println("Cannot place ship at the given location.");
@@ -140,11 +140,35 @@ public class Board {
             //place ship in the cell
             grid[x][y].setShip(ship); // set ship in the cell
         }
+        ship.placeShip(null);
     }
    
 
     void display() {
         // Display the board to the console
+        System.out.print("   ");
+        for (int x = 0; x < SIZE; x++) {
+            System.out.print((x + 1) + " ");
+        }
+        System.out.println();
+        for (int y = 0; y < SIZE; y++) {
+            char rowLabel = (char) ('A' + y);
+            System.out.print(rowLabel + "  ");
+            for (int x = 0; x < SIZE; x++) {
+                Cell cell = grid[x][y];
+                char displayChar = '.';
+                
+                if (cell.isHit) {
+                    displayChar = 'X';
+                } else if (cell.isMiss) {
+                    displayChar = 'O';
+                } else if (cell.getShip() != null) {
+                }
+                
+                System.out.print(displayChar + " ");
+            }
+            System.out.println();
+        }
     }
 
     enum Direction {
