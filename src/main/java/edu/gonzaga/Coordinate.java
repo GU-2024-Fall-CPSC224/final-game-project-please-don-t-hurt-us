@@ -18,9 +18,7 @@ public class Coordinate {
 
     public boolean isValid() {
         // Check if the coordinate is valid (within the bounds of the board 2d list)
-        if (getX() < 0 || getX() >= Board.SIZE || getY() < 0 || getY() >= Board.SIZE) {
-            return false; // Invalid row or column
-        }
+        return row >= 'A' && row <= 'J' && column >= 1 && column <= 10;
     }
     
     @Override

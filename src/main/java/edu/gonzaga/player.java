@@ -12,35 +12,29 @@ public class Player extends MainGame {
     Board board = new Board();
     List<Ship> ships = new ArrayList<>();
 
-    void placeShip(Ship ship, Coordinate coordinate, Direction Direction) {
-        // Check if the ship can be placed on the board at the given coordinate and direction
-        if (board.canPlaceShip(ship, coordinate, Direction)) {
-            // select the direction of the ship
-            // double check if the ship can be placed on the board at the given coordinate and direction
-            // Place the ship on the board
-            ship.isPlaced = true;
-            ship.coordinates = new ArrayList<>();
-            for (int i = 0; i < ship.size; i++) {
-                Coordinate newCoordinate = new Coordinate(coordinate.getX(), coordinate.getY());
-                if (Direction == Direction.UP) {
-                    newCoordinate.setX(newCoordinate.getX() - i);
-                } else if (Direction == Direction.DOWN) {
-                    newCoordinate.setX(newCoordinate.getX() + i);
-                } else if (Direction == Direction.LEFT) {
-                    newCoordinate.setY(newCoordinate.getY() - i);
-                } else if (Direction == Direction.RIGHT) {
-                    newCoordinate.setY(newCoordinate.getY() + i);
-                }
-                ship.coordinates.add(newCoordinate);
+    void placeShip(Ship ship, Coordinate coordinate, Direction direction) {
+        
+        if (!board.canPlaceShip(ship, coordinate, direction)) {
+            System.out.println("Cannot place ship at the given location.");
+            return;
+        }
+
+        for (int i = 0; i < ship.getSize(); i++) {
+            int x = coordinate.getX();
+            int y = coordinate.getY();
+
+            // Adjust coordinates based on the direction
+            if (direction == Direction.UP) {
+                y = coordinate.getY() - i;
+            } else if (direction == Direction.DOWN) {
+                y = coordinate.getY() + i;
+            } else if (direction == Direction.LEFT) {
+                x = coordinate.getX() - i;
+            } else if (direction == Direction.RIGHT) {
+                x = coordinate.getX() + i;
             }
-            // Add the ship to the player's list of ships
-            ships.add(ship);
-            // Update the board with the ship's coordinates
-            for (Coordinate c : ship.coordinates) {
-                board.grid[c.getX()][c.getY()].setShip(ship);
-            }
-        } else {
-            System.out.println("Cannot place ship at this location.");
+
+            grid[x][y].placeShip(ship);
         }
     }
     void fire(Coordinate coordinate) {
