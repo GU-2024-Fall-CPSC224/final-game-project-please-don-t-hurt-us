@@ -114,6 +114,33 @@ public class Board {
             return shotResult.MISS;
         }
     }
+
+    void placeShip(Ship ship, Coordinate coordinate, Direction direction) {
+        
+        if (!canPlaceShip(ship, coordinate, direction)) {
+            System.out.println("Cannot place ship at the given location.");
+            return;
+        }
+
+        for (int i = 0; i < ship.getSize(); i++) {
+            int x = coordinate.getX();
+            int y = coordinate.getY();
+
+            // Adjust coordinates based on the direction
+            if (direction == Direction.UP) {
+                y = coordinate.getY() - i;
+            } else if (direction == Direction.DOWN) {
+                y = coordinate.getY() + i;
+            } else if (direction == Direction.LEFT) {
+                x = coordinate.getX() - i;
+            } else if (direction == Direction.RIGHT) {
+                x = coordinate.getX() + i;
+            }
+
+            //place ship in the cell
+            grid[x][y].setShip(ship); // set ship in the cell
+        }
+    }
    
 
     void display() {
