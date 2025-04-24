@@ -20,6 +20,12 @@ import java.util.Arrays;
 public class MainGame {
     public static void main(String[] args) {
         System.out.println("Hello welcome to the BattleShip game!");
+        BattleShipUI ui = new BattleShipUI();
+        // Create a new instance of the game UI
+        // This will create the UI and display the start screen
+        // The UI will handle user interactions and game flow
+        // You can add more functionality to the UI class as needed
+        // For example, you can add buttons for starting the game, showing instructions, etc.
 
 
         // Your code here. Good luck!
