@@ -80,7 +80,39 @@ public class Board {
     shotResult fire(Coordinate coordinate) {
         // Check if the shot hits or misses a ship
         // This method should check the grid at the given coordinate and return the result
-        return shotResult.MISS; // Placeholder return value
+        int x = coordinate.getX(); 
+        int y = coordinate.getY();
+        
+        // check bounds & return MISS
+        if (x < 0 || x >= 11 || y < 0 || y >= 11) {
+            System.out.println("Shot fired is out of bounds!");
+            return shotResult.MISS;
+        } 
+
+        Cell targetCell = grid[x][y]; // get target cell
+        //check cell status for previous shots
+        if (targetCell.isHit || targetCell.isMiss) {
+            System.out.println("Invalid shot, please pick another position!");
+            return targetCell.getShotResult();
+        }
+
+        // check for hit
+        if (targetCell.hasShip) {
+            targetCell.markHit(); // mark target cell as hit
+            targetCell.getShip().registerHit(coordinate); // updates the ship object
+            // check for SUNK else HIT
+            if (targetCell.getShip().isSunk()) {
+                targetCell.setShotResult(shotResult.SUNK);
+                return shotResult.SUNK;
+            } else {
+                targetCell.setShotResult(shotResult.HIT);
+                return shotResult.HIT;
+            }
+        } else { // check for MISS
+            targetCell.isMiss = true;
+            targetCell.setShotResult(shotResult.MISS);
+            return shotResult.MISS;
+        }
     }
    
 
