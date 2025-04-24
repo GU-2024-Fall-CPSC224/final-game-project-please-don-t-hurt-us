@@ -21,22 +21,19 @@ public class MainGame {
     public static void main(String[] args) {
         System.out.println("Hello welcome to the BattleShip game!");
 
+        Scanner scanner = new Scanner(System.in);
 
         // Your code here. Good luck!
         Player player1 = new Player();
         Player player2 = new Player();
-        Player currentPlayer = player1;
-        Player opponent = player2;
-        initializeGame();
-
+        initializeGame(scanner, player1, player2); // prompt for names and ship placement
+        startGame(scanner, player1, player2); // turn-based loop game logic
+        quitGame();
     }
 
-    static void initializeGame() {
+    void initializeGame(Scanner scanner, Player player1, Player player2) {
         System.out.println("Initializing game...");
         // Initialize the game board, ships, and players
-        Board board = new Board();
-        Player player1 = new Player();
-        Player player2 = new Player();
         player1.name = "Player 1";
 
         player2.name = "Player 2";
@@ -50,7 +47,7 @@ public class MainGame {
 
     }
 
-    void startGame() {
+    void startGame(Scanner scanner, Player player1, Player player2) {
         
         
     }
@@ -61,7 +58,7 @@ public class MainGame {
         opponent = temp;
     }
 
-    boolean checkWinner(Player player) {
+    public boolean checkWinner(Player player) {
 
         for (Ship ship : player.getShips()) {
             if (!ship.isSunk()) {
@@ -72,11 +69,12 @@ public class MainGame {
         
     }
 
-    void quitGame() {
+    public void quitGame() {
+        System.exit(0);
         System.out.println("Thanks for playing!");
     }
 
-    void forfeitGame(Player player) {
+    public void forfeitGame(Player player) {
         System.out.println(player.name + " has forfeited the game.");
     }
 }

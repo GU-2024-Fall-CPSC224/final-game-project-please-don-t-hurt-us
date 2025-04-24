@@ -171,11 +171,11 @@ public class Board {
         }
     }
 
-    public enum Direction {
+    enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
-    public enum shotResult {
+    enum shotResult {
         HIT, MISS, SUNK
     }
     
