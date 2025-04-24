@@ -178,5 +178,12 @@ public class Board {
     enum shotResult {
         HIT, MISS, SUNK
     }
+
+    public int getSize() {
+        return SIZE;
+    }
+    public Cell[][] getGrid() {
+        return grid;
+    }
     
 }
