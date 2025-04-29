@@ -32,20 +32,19 @@ public class MainGame {
         // Your code here. Good luck!
         Player player1 = new Player();
         Player player2 = new Player();
-        initializeGame(scanner, player1, player2); // prompt for names and ship placement
-        startGame(scanner, player1, player2); // turn-based loop game logic
-        quitGame();
+        
     }
 
     public static void initializeGame(Scanner scanner, Player player1, Player player2) {
         System.out.println("Initializing game...");
         // Initialize the game board, ships, and players
-        player1.setName("Player 1"); //default
-        player2.setName("Player 2"); //default
+        player1.name = "Player 1";
 
-        // prompt
-        System.out.println("Player 1, pick your name: ");
-        player1.name = scanner.nextLine().trim().toUpperCase();
+        player2.name = "Player 2";
+
+        System.out.println("Player 1, pick your name:");
+        Scanner scanner = new Scanner(System.in);
+        player1.name = scanner.nextLine();
         System.out.println("Player 2, pick your name:");
         player2.name = scanner.nextLine().trim().toUpperCase();
         System.out.println("Welcome " + player1.getName() + " and " + player2.getName() + "!");
