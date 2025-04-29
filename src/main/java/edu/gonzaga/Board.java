@@ -16,91 +16,99 @@ public class Board {
     }
 
     boolean canPlaceShip(Ship ship, Coordinate coordinate, Direction direction) {
-        // Check if the ship can be placed on the board at the given coordinate and direction
-        // This method should check for boundaries and collisions with other ships
+        System.out.println("DEBUG: canPlaceShip called for ship " + ship.getType() +
+                           " starting at " + coordinate + " in direction " + direction);
+    
         if (!coordinate.isValid()) {
-            return false; // Invalid coordinate
+            System.out.println("DEBUG: Coordinate " + coordinate + " is not valid.");
+            return false;
         }
         if (ship.isPlaced()) {
-            return false; // Ship already placed
+            System.out.println("DEBUG: Ship " + ship.getType() + " is already placed.");
+            return false;
         }
-        // Check boundaries based on the direction
+        
+        // Boundary checks using the proper indices
         if (direction == Direction.UP) {
-            if (coordinate.getY() - ship.getSize() + 1 < 0) {
-                return false; // Ship would go out of bounds
+            if (coordinate.getX() - ship.getSize() + 1 < 0) {
+                System.out.println("DEBUG: Boundary check failed for UP: " +
+                        (coordinate.getX() - ship.getSize() + 1) + " < 0");
+                return false;
             }
         } else if (direction == Direction.DOWN) {
-            if (coordinate.getY() + ship.getSize() - 1 >= SIZE) {
-                return false; // Ship would go out of bounds
+            if (coordinate.getX() + ship.getSize() - 1 >= SIZE) {
+                System.out.println("DEBUG: Boundary check failed for DOWN: " +
+                        (coordinate.getX() + ship.getSize() - 1) + " >= " + SIZE);
+                return false;
             }
         } else if (direction == Direction.LEFT) {
-            if (coordinate.getX() - ship.getSize() + 1 < 0) {
-                return false; // Ship would go out of bounds
+            if (coordinate.getY() - ship.getSize() + 1 < 0) {
+                System.out.println("DEBUG: Boundary check failed for LEFT: " +
+                        (coordinate.getY() - ship.getSize() + 1) + " < 0");
+                return false;
             }
         } else if (direction == Direction.RIGHT) {
-            if (coordinate.getX() + ship.getSize() - 1 >= SIZE) {
-                return false; // Ship would go out of bounds
-            }
-        }
-
-        // Check for collisions with other ships
-        for (int i = 0; i < ship.getSize(); i++) {
-            int x = coordinate.getX();
-            int y = coordinate.getY();
-
-            // Adjust coordinates based on the direction
-            if (direction == Direction.UP) {
-                y = coordinate.getY() - i;
-            } else if (direction == Direction.DOWN) {
-                y = coordinate.getY() + i;
-            } else if (direction == Direction.LEFT) {
-                x = coordinate.getX() - i;
-            } else if (direction == Direction.RIGHT) {
-                x = coordinate.getX() + i;
-            }
-
-
-            if (grid[x][y].getShip() != null) {
+            if (coordinate.getY() + ship.getSize() - 1 >= SIZE) {
+                System.out.println("DEBUG: Boundary check failed for RIGHT: " +
+                        (coordinate.getY() + ship.getSize() - 1) + " >= " + SIZE);
                 return false;
             }
         }
-        int x = coordinate.getX();
-        int y = coordinate.getY();
-        // Check for any existing ship at the current coordinate
-        if (grid[x][y].getShip() != null) {
-            return false; // Collision with another ship
+        
+        // Collision check over the ship's length:
+        for (int i = 0; i < ship.getSize(); i++) {
+            int row = coordinate.getX();
+            int col = coordinate.getY();
+            switch (direction) {
+                case UP:
+                    row = coordinate.getX() - i;
+                    break;
+                case DOWN:
+                    row = coordinate.getX() + i;
+                    break;
+                case LEFT:
+                    col = coordinate.getY() - i;
+                    break;
+                case RIGHT:
+                    col = coordinate.getY() + i;
+                    break;
+            }
+            System.out.println("DEBUG: Checking cell at row " + row + ", col " + col);
+            if (grid[col][row].getShip() != null) {
+                System.out.println("DEBUG: Collision at cell (row " + row + ", col " + col + ") with ship " +
+                grid[col][row].getShip().getType());
+                return false;
+            }
         }
+        
+        System.out.println("DEBUG: canPlaceShip returning true for ship " + ship.getType());
+        return true;
+    }
     
 
-        // If all checks pass, the ship can be placed
-        return true; // Ship can be placed
-
-    }
-
     public shotResult fire(Coordinate coordinate) {
-        // Check if the shot hits or misses a ship
-        // This method should check the grid at the given coordinate and return the result
-        int x = coordinate.getX(); 
-        int y = coordinate.getY();
+        int row = coordinate.getX();   
+        int col = coordinate.getY();      
         
-        // check bounds & return MISS
-        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {
+        if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
             System.out.println("Shot fired is out of bounds!");
             return shotResult.MISS;
-        } 
-
-        Cell targetCell = grid[x][y]; // get target cell
-        //check cell status for previous shots
-        if (targetCell.isHit || targetCell.isMiss) {
-            System.out.println("Invalid shot, please pick another position!");
-            return targetCell.getShotResult();
         }
+        
+        Cell targetCell = grid[col][row];
+        
+        // Check if this cell has already been shot at
+        if (targetCell.isHit || targetCell.isMiss) {
+            System.out.println("You have already shot at this position. Please choose another coordinate.");
+            return shotResult.ALREADY_SHOT;
 
-        // check for hit
+        }
+        
+        // Check for a hit on a ship
         if (targetCell.hasShip) {
-            targetCell.markHit(); // mark target cell as hit
-            targetCell.getShip().registerHit(coordinate); // updates the ship object
-            // check for SUNK else HIT
+            targetCell.markHit();                
+            targetCell.getShip().registerHit(coordinate);  
+            
             if (targetCell.getShip().isSunk()) {
                 targetCell.setShotResult(shotResult.SUNK);
                 return shotResult.SUNK;
@@ -108,40 +116,43 @@ public class Board {
                 targetCell.setShotResult(shotResult.HIT);
                 return shotResult.HIT;
             }
-        } else { // check for MISS
+        } else {  
             targetCell.isMiss = true;
             targetCell.setShotResult(shotResult.MISS);
             return shotResult.MISS;
         }
     }
-
+    
     public void placeShip(Ship ship, Coordinate coordinate, Direction direction) {
-        
-        if (!canPlaceShip(ship, coordinate, direction)) {
-            System.out.println("Cannot place ship at the given location.");
-            return;
-        }
-
-        for (int i = 0; i < ship.getSize(); i++) {
-            int x = coordinate.getX();
-            int y = coordinate.getY();
-
-            // Adjust coordinates based on the direction
-            if (direction == Direction.UP) {
-                y = coordinate.getY() - i;
-            } else if (direction == Direction.DOWN) {
-                y = coordinate.getY() + i;
-            } else if (direction == Direction.LEFT) {
-                x = coordinate.getX() - i;
-            } else if (direction == Direction.RIGHT) {
-                x = coordinate.getX() + i;
-            }
-
-            //place ship in the cell
-            grid[x][y].setShip(ship); // set ship in the cell
-        }
-        ship.placeShip(null);
+    if (!canPlaceShip(ship, coordinate, direction)) {
+        System.out.println("Cannot place ship at the given location.");
+        return;
     }
+
+    for (int i = 0; i < ship.getSize(); i++) {
+        int row = coordinate.getX();
+        int col = coordinate.getY();
+        // Adjust coordinates based on the direction using our intended logic:
+        switch (direction) {
+            case UP:
+                row = coordinate.getX() - i;
+                break;
+            case DOWN:
+                row = coordinate.getX() + i;
+                break;
+            case LEFT:
+                col = coordinate.getY() - i;
+                break;
+            case RIGHT:
+                col = coordinate.getY() + i;
+                break;
+        }
+        System.out.println("DEBUG: Placing ship " + ship.getType() + " at cell (" + row + ", " + col + ")");
+        // Correct the grid access order: first index is column, second index is row.
+        grid[col][row].setShip(ship);
+    }
+}
+
    
 
     void display() {
@@ -176,7 +187,7 @@ public class Board {
     }
 
     enum shotResult {
-        HIT, MISS, SUNK
+        HIT, MISS, SUNK, ALREADY_SHOT
     }
 
     public int getSize() {

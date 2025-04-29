@@ -37,6 +37,11 @@ public class Player extends MainGame {
     }
 
     void changeDirection(Ship ship, Board.Direction direction) {
+        // method will turn ship
+    }
+
+    void removeShip(Ship ship, Coordinate coordinate) {
+        // method will remove ship from board
     }
 
     public void setName(String name) {
