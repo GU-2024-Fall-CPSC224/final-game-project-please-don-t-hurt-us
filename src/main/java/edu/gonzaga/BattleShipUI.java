@@ -22,7 +22,7 @@ public class BattleShipUI {
         JLabel titleLabel = new JLabel("Welcome to Battleship!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.BLUE);
-        JLabel creditsLabel = new JLabel("Created by: Stuart Goldkamp, Justin Truong", SwingConstants.CENTER);
+        JLabel creditsLabel = new JLabel("Created by: Stuart Goldkamp, Jason Truong", SwingConstants.CENTER);
         JButton startButton = new JButton("Start Game");
         JButton instructionsButton = new JButton("Instructions");
         JButton exitButton = new JButton("Exit");
@@ -46,11 +46,19 @@ public class BattleShipUI {
         rulesTitleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         rulesScreen.add(rulesTitleLabel);
         
-        JLabel rules = new JLabel("1. Each player places their ships on the grid. \n 2. Players take turns to attack each other's ships. \n 3. A player wins by sinking all opponent's ships. \n 4. The game ends when a player wins or forfeits.", SwingConstants.CENTER);
+        JLabel rules = new JLabel("1. Each player places their ships on the grid. \n 2. Players take turns to attack each other's ships.", SwingConstants.HORIZONTAL);
+        JLabel rules2 = new JLabel("3. The first player to sink all of the opponent's ships wins the game. 4. Ships can be placed horizontally or vertically, but not diagonally.", SwingConstants.HORIZONTAL);
+        //JLabel rules3 = new JLabel("4. Ships can be placed horizontally or vertically, but not diagonally.", SwingConstants.HORIZONTAL);
         
         rulesScreen.add(rules);
-        rules.setFont(new Font("Arial", Font.PLAIN, 12));
+        rulesScreen.add(rules2);
+        //rulesScreen.add(rules3);
+        rules.setFont(new Font("Arial", Font.PLAIN, 10));
         rules.setForeground(Color.BLACK);
+        rules2.setFont(new Font("Arial", Font.PLAIN, 10));
+        rules2.setForeground(Color.BLACK);
+        //rules3.setFont(new Font("Arial", Font.PLAIN, 10));
+        //rules3.setForeground(Color.BLACK);
         
         JButton backButton = new JButton("Back to Start Screen");
         rulesScreen.add(backButton);
