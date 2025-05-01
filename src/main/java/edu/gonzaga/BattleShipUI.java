@@ -366,26 +366,21 @@ public class BattleShipUI {
         int row = index / 10;
         int col = index % 10;
         Coordinate target = new Coordinate((char) ('A' + row), col + 1);
-        
+    
         Board.shotResult result = currentOpponent.getBoard().fire(target);
-        
+    
         if(result == Board.shotResult.ALREADY_SHOT){
             JOptionPane.showMessageDialog(frame, "Already shot here. Choose another square.");
             return;
         } else if(result == Board.shotResult.SUNK){
-            // Retrieve the sunk ship from the board cell
             Ship sunkShip = currentOpponent.getBoard().getGrid()[row][col].getShip();
             JOptionPane.showMessageDialog(frame, "Hit! You sunk a ship!");
-            
-            // Iterate over the entire board and set all cells belonging to the sunk ship to purple (magenta)
-            for (int r = 0; r < currentOpponent.getBoard().getSize(); r++) {
-                for (int c = 0; c < currentOpponent.getBoard().getSize(); c++) {
-                    Cell cell = currentOpponent.getBoard().getGrid()[r][c];
-                    if(cell.getShip() == sunkShip) {
-                        int btnIndex = r * 10 + c;
-                        gameGridButtons[btnIndex].setBackground(Color.MAGENTA);
-                    }
-                }
+    
+            // Change all tiles of this ship to purple
+            List<Coordinate> shipCoords = sunkShip.getCoordinates();
+            for(Coordinate c : shipCoords) {
+                int sunkIndex = (c.getX() - 'A') * 10 + (c.getY() - 1);
+                gameGridButtons[sunkIndex].setBackground(Color.MAGENTA);
             }
         } else if(result == Board.shotResult.HIT){
             gameGridButtons[index].setBackground(Color.RED);
@@ -394,26 +389,37 @@ public class BattleShipUI {
             gameGridButtons[index].setBackground(Color.BLUE);
             JOptionPane.showMessageDialog(frame, "Miss!");
         }
-        
-        if (checkWinner(currentOpponent)) {
+    
+        if(checkWinner(currentOpponent)){
             JOptionPane.showMessageDialog(frame, currentPlayer.getName() + " wins the game!");
             System.exit(0);
         }
-        
-        // Swap turns.
+    
+        // Swap turns
         Player temp = currentPlayer;
         currentPlayer = currentOpponent;
         currentOpponent = temp;
         updateStatusLabel();
         refreshGameGrid();
     }
-    
     private void refreshGameGrid() {
         for(int i = 0; i < 100; i++){
             int row = i / 10;
             int col = i % 10;
             Coordinate c = new Coordinate((char) ('A' + row), col + 1);
-           
+            if(currentOpponent.getBoard().isShotAt(c)){
+                Board.shotResult res = currentOpponent.getBoard().getShotResultAt(c);
+                if(res == Board.shotResult.HIT || res == Board.shotResult.SUNK){
+                    gameGridButtons[i].setBackground(Color.RED);
+                    gameGridButtons[i].setEnabled(false);
+                } else if(res == Board.shotResult.MISS){
+                    gameGridButtons[i].setBackground(Color.BLUE);
+                    gameGridButtons[i].setEnabled(false);
+                }
+            } else {
+                gameGridButtons[i].setBackground(Color.LIGHT_GRAY);
+                gameGridButtons[i].setEnabled(true);
+            }
         }
     }
     
