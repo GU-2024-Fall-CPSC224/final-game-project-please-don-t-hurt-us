@@ -176,7 +176,7 @@ public class BattleShipUI {
                     JOptionPane.showMessageDialog(frame, "Please select a square to place your ship.");
                     return;
                 }
-                
+        
                 char rowChar = (char) ('A' + selectedPlacementRow);
                 int colNum = selectedPlacementCol + 1;
                 Coordinate startCoord = new Coordinate(rowChar, colNum);
@@ -185,33 +185,41 @@ public class BattleShipUI {
                 try {
                     direction = Board.Direction.valueOf(dirStr.toUpperCase());
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, "Invalid direction selection.");
+                    JOptionPane.showMessageDialog(frame, "Invalid direction selected.");
                     return;
                 }
+        
                 int shipSize = shipSizes[currentShipIndex];
                 String shipType = shipTypes[currentShipIndex];
                 Ship ship = new Ship(shipType, shipSize);
-                
+        
                 if (currentPlacementPlayer.getBoard().canPlaceShip(ship, startCoord, direction)) {
+                    // FIX: Board is updated BEFORE marking ship as placed
+                    currentPlacementPlayer.getBoard().placeShip(ship, startCoord, direction); 
                     List<Coordinate> coords = computeShipCoordinates(startCoord, direction, shipSize);
-                    ship.placeShip(coords);
+                    ship.placeShip(coords); // Now mark ship as placed
                     currentPlacementPlayer.getShips().add(ship);
-                    currentPlacementPlayer.getBoard().placeShip(ship, startCoord, direction);
                     markPlacementCells(coords, Color.GREEN);
-                    
-                    JOptionPane.showMessageDialog(frame, shipType + " placed at: " + coords.toString());
-                    
-                    currentShipIndex++;
-                    if (currentShipIndex >= shipTypes.length) {
-                        nextPlayerButton.setEnabled(true);
-                        placeShipButton.setEnabled(false);
-                        placementInstructionLabel.setText(currentPlacementPlayer.getName() + 
-                            ", you have finished placing ships. Click 'Finish Placement' to pass the board.");
+        
+                    if(currentPlacementPlayer == player1 && currentShipIndex == shipTypes.length - 1) {
+                        JOptionPane.showMessageDialog(frame, player1.getName() + " has finished placing ships. Now, " + player2.getName() + ", place your ships.");
+                        currentPlacementPlayer = player2;
+                        currentShipIndex = 0;
+                        resetPlacementGrid();
+                        updatePlacementInstruction();
+                    } else if(currentPlacementPlayer == player2 && currentShipIndex == shipTypes.length - 1) {
+                        JOptionPane.showMessageDialog(frame, player2.getName() + " has finished placing ships. Let the battle begin!");
+                        currentPlayer = player1;
+                        currentOpponent = player2;
+                        updateStatusLabel();
+                        resetGameGrid();
+                        showScreen("gameScreen");
                     } else {
+                        currentShipIndex++;
                         updatePlacementInstruction();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Invalid placement for " + shipType + ". Try again.");
+                    JOptionPane.showMessageDialog(frame, "Invalid placement for " + shipType + ". Try another coordinate/direction.");
                 }
             }
         });
@@ -360,10 +368,26 @@ public class BattleShipUI {
         Coordinate target = new Coordinate((char) ('A' + row), col + 1);
         
         Board.shotResult result = currentOpponent.getBoard().fire(target);
+        
         if(result == Board.shotResult.ALREADY_SHOT){
             JOptionPane.showMessageDialog(frame, "Already shot here. Choose another square.");
             return;
-        } else if(result == Board.shotResult.HIT || result == Board.shotResult.SUNK){
+        } else if(result == Board.shotResult.SUNK){
+            // Retrieve the sunk ship from the board cell
+            Ship sunkShip = currentOpponent.getBoard().getGrid()[row][col].getShip();
+            JOptionPane.showMessageDialog(frame, "Hit! You sunk a ship!");
+            
+            // Iterate over the entire board and set all cells belonging to the sunk ship to purple (magenta)
+            for (int r = 0; r < currentOpponent.getBoard().getSize(); r++) {
+                for (int c = 0; c < currentOpponent.getBoard().getSize(); c++) {
+                    Cell cell = currentOpponent.getBoard().getGrid()[r][c];
+                    if(cell.getShip() == sunkShip) {
+                        int btnIndex = r * 10 + c;
+                        gameGridButtons[btnIndex].setBackground(Color.MAGENTA);
+                    }
+                }
+            }
+        } else if(result == Board.shotResult.HIT){
             gameGridButtons[index].setBackground(Color.RED);
             JOptionPane.showMessageDialog(frame, "Hit!");
         } else if(result == Board.shotResult.MISS){
@@ -371,7 +395,7 @@ public class BattleShipUI {
             JOptionPane.showMessageDialog(frame, "Miss!");
         }
         
-        if(checkWinner(currentOpponent)){
+        if (checkWinner(currentOpponent)) {
             JOptionPane.showMessageDialog(frame, currentPlayer.getName() + " wins the game!");
             System.exit(0);
         }
@@ -389,19 +413,7 @@ public class BattleShipUI {
             int row = i / 10;
             int col = i % 10;
             Coordinate c = new Coordinate((char) ('A' + row), col + 1);
-            if(currentOpponent.getBoard().isShotAt(c)){
-                Board.shotResult res = currentOpponent.getBoard().getShotResultAt(c);
-                if(res == Board.shotResult.HIT || res == Board.shotResult.SUNK){
-                    gameGridButtons[i].setBackground(Color.RED);
-                    gameGridButtons[i].setEnabled(false);
-                } else if(res == Board.shotResult.MISS){
-                    gameGridButtons[i].setBackground(Color.BLUE);
-                    gameGridButtons[i].setEnabled(false);
-                }
-            } else {
-                gameGridButtons[i].setBackground(Color.LIGHT_GRAY);
-                gameGridButtons[i].setEnabled(true);
-            }
+           
         }
     }
     
