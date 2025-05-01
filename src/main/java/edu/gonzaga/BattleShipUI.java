@@ -249,8 +249,6 @@ public class BattleShipUI {
             final int index = i;
             gameGridButtons[i] = new JButton();
             gameGridButtons[i].setBackground(Color.LIGHT_GRAY);
-            button.setIcon(new ImageIcon(gridSquarePNGLocation)); // Set the icon for the button
-            button.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Add a border to the button
             gameGridButtons[i].setPreferredSize(new Dimension(50, 50));
             gameGridButtons[i].addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
