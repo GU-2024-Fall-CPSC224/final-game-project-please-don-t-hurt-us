@@ -25,6 +25,7 @@ import java.util.ArrayList;
 /** Main program class for launching your team's program. */
 public class MainGame {
     public static void main(String[] args) {
+        BattleShipUI battleShipUI = new BattleShipUI();
         System.out.println("Hello welcome to the BattleShip game!");
 
         Scanner scanner = new Scanner(System.in);

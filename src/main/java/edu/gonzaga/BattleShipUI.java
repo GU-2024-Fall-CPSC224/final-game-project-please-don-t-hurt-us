@@ -98,11 +98,14 @@ public class BattleShipUI {
             JButton button = new JButton();
             button.setPreferredSize(new Dimension(10, 10));  // Adjust the size of each grid button
             button.setBackground(Color.LIGHT_GRAY);
+            button.setIcon(new ImageIcon(gridSquarePNGLocation)); // Set the icon for the button
+            button.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Add a border to the button
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    button.setBackground(Color.RED); // Change color to indicate hit
-                    JOptionPane.showMessageDialog(frame, "You hit a ship!");
+                    
+
+                    System.out.println("Grid button clicked!");
                 }
             });
             gridPanel.add(button);
@@ -124,6 +127,7 @@ public class BattleShipUI {
                 int response = JOptionPane.showConfirmDialog(frame, "Are you sure you want to forfeit?", "Forfeit Game", JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     JOptionPane.showMessageDialog(frame, "You have forfeited the game.");
+
                     System.exit(0);
                 }
             }
