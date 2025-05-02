@@ -37,7 +37,7 @@ public class BattleShipUI {
         frame = new JFrame("Battleship Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 800);
-        
+        frame.setForeground(Color.CYAN);
         cardLayout = new CardLayout();
         frame.setLayout(cardLayout);
         
@@ -58,6 +58,7 @@ public class BattleShipUI {
     // ---------------- Start Screen ----------------
     private void createStartScreen() {
         startScreen = new JPanel(new GridLayout(5, 1));
+        startScreen.setBackground(Color.CYAN);
         JLabel titleLabel = new JLabel("Welcome to Battleship!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.BLUE);
@@ -110,7 +111,9 @@ public class BattleShipUI {
     // ---------------- Rules Screen ----------------
     private void createRulesScreen() {
         rulesScreen = new JPanel(new BorderLayout());
+        rulesScreen.setBackground(Color.CYAN);
         JTextArea rulesText = new JTextArea();
+        JTextArea rulesTitle = new JTextArea();
         rulesText.setEditable(false);
         rulesText.setFont(new Font("Arial", Font.PLAIN, 16));
         rulesText.setText("Game Rules:\n" +
@@ -119,8 +122,12 @@ public class BattleShipUI {
                           "3. After both players have placed ships, take turns firing at each other's board.\n" +
                           "4. The first player to sink all of the opponent's ships wins.\n" +
                           "5. Ships can be placed horizontally or vertically, not diagonally.");
+        rulesTitle.setEditable(false);
+        rulesTitle.setFont(new Font("Arial", Font.BOLD, 30));
+        rulesTitle.setText("Battleship Rules");
         JButton backButton = new JButton("Back to Start");
         rulesScreen.add(rulesText, BorderLayout.CENTER);
+        rulesScreen.add(rulesTitle, BorderLayout.NORTH);
         rulesScreen.add(backButton, BorderLayout.SOUTH);
         
         backButton.addActionListener(new ActionListener(){
@@ -386,7 +393,7 @@ public class BattleShipUI {
             gameGridButtons[index].setBackground(Color.RED);
             JOptionPane.showMessageDialog(frame, "Hit!");
         } else if(result == Board.shotResult.MISS){
-            gameGridButtons[index].setBackground(Color.BLUE);
+            gameGridButtons[index].setBackground(Color.BLACK);
             JOptionPane.showMessageDialog(frame, "Miss!");
         }
     
@@ -413,7 +420,7 @@ public class BattleShipUI {
                     gameGridButtons[i].setBackground(Color.RED);
                     gameGridButtons[i].setEnabled(false);
                 } else if(res == Board.shotResult.MISS){
-                    gameGridButtons[i].setBackground(Color.BLUE);
+                    gameGridButtons[i].setBackground(Color.BLACK);
                     gameGridButtons[i].setEnabled(false);
                 }
             } else {
